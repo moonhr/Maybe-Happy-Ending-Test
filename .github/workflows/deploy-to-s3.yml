@@ -11,6 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
+      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
       CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
 
     steps:
@@ -26,23 +27,28 @@ jobs:
 
       - name: Upload static files to S3
         run: |
+          if [ -z "$S3_BUCKET_NAME" ]; then
+            echo "ERROR: S3_BUCKET_NAME secret is not set."
+            exit 1
+          fi
+
           # CSS, JS 파일 업로드 (긴 캐시)
-          aws s3 cp style.css s3://${{ secrets.S3_BUCKET_NAME }}/style.css \
+          aws s3 cp style.css "s3://$S3_BUCKET_NAME/style.css" \
             --content-type "text/css; charset=utf-8" \
             --cache-control "public, max-age=31536000"
           
-          aws s3 cp script.js s3://${{ secrets.S3_BUCKET_NAME }}/script.js \
+          aws s3 cp script.js "s3://$S3_BUCKET_NAME/script.js" \
             --content-type "application/javascript; charset=utf-8" \
             --cache-control "public, max-age=31536000"
           
           # HTML 파일 업로드 (캐시 없음)
-          aws s3 cp index.html s3://${{ secrets.S3_BUCKET_NAME }}/index.html \
+          aws s3 cp index.html "s3://$S3_BUCKET_NAME/index.html" \
             --content-type "text/html; charset=utf-8" \
             --cache-control "no-cache, no-store, must-revalidate"
           
           # JSON 파일 업로드 (캐시 없음)
           if [ -f "test.json" ]; then
-            aws s3 cp test.json s3://${{ secrets.S3_BUCKET_NAME }}/test.json \
+            aws s3 cp test.json "s3://$S3_BUCKET_NAME/test.json" \
               --content-type "application/json; charset=utf-8" \
               --cache-control "no-cache, no-store, must-revalidate"
           fi
