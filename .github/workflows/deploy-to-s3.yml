@@ -1,0 +1,54 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch: # 수동 실행도 가능하도록
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'ap-northeast-2' }}
+
+      - name: Upload static files to S3
+        run: |
+          # CSS, JS 파일 업로드 (긴 캐시)
+          aws s3 cp style.css s3://${{ secrets.S3_BUCKET_NAME }}/style.css \
+            --content-type "text/css; charset=utf-8" \
+            --cache-control "public, max-age=31536000"
+          
+          aws s3 cp script.js s3://${{ secrets.S3_BUCKET_NAME }}/script.js \
+            --content-type "application/javascript; charset=utf-8" \
+            --cache-control "public, max-age=31536000"
+          
+          # HTML 파일 업로드 (캐시 없음)
+          aws s3 cp index.html s3://${{ secrets.S3_BUCKET_NAME }}/index.html \
+            --content-type "text/html; charset=utf-8" \
+            --cache-control "no-cache, no-store, must-revalidate"
+          
+          # JSON 파일 업로드 (캐시 없음)
+          if [ -f "test.json" ]; then
+            aws s3 cp test.json s3://${{ secrets.S3_BUCKET_NAME }}/test.json \
+              --content-type "application/json; charset=utf-8" \
+              --cache-control "no-cache, no-store, must-revalidate"
+          fi
+
+      - name: Invalidate CloudFront cache (optional)
+        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+
