@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>어쩌면 해피엔딩 엔딩 테스트</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="intro" class="section">
+        <h1 id="title"></h1>
+        <p id="subtitle"></p>
+        <button id="start-btn" class="btn">시작하기</button>
+      </div>
+
+      <div id="quiz" class="section hidden">
+        <div class="progress-bar">
+          <div id="progress" class="progress-fill"></div>
+        </div>
+        <div class="question-info">
+          <span id="question-number"></span> /
+          <span id="total-questions"></span>
+        </div>
+        <h2 id="question-text"></h2>
+        <div id="options" class="options"></div>
+      </div>
+
+      <div id="result" class="section hidden">
+        <h1 id="result-name"></h1>
+        <div id="result-description"></div>
+        <p id="result-cta" class="cta"></p>
+        <button id="restart-btn" class="btn">다시 하기</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

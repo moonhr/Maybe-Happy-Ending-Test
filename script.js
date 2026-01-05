@@ -1,0 +1,317 @@
+// JSON 데이터
+const testData = {
+  meta: {
+    title: "어쩌면 해피엔딩 테스트",
+    subtitle: "당신은 어떤 순간에 머무는 사람인가요?",
+    result_types: ["OLIVER", "JAMES", "CLAIRE"],
+    spoiler_safe: true,
+  },
+  questions: [
+    {
+      id: 1,
+      question: "조용한 방 안, 하루의 시작입니다. 가장 먼저 하게 되는 행동은?",
+      options: {
+        A: "창가로 가서 빛의 각도를 살핀다",
+        B: "늘 하던 루틴을 정확히 반복한다",
+        C: "문득 떠오른 생각을 혼잣말로 꺼낸다",
+        D: "오늘은 어제와 다를지도 모른다고 느낀다",
+      },
+    },
+    {
+      id: 2,
+      question: "낯선 노크 소리가 들렸습니다. 당신의 반응은?",
+      options: {
+        A: "일정에 없던 일이라 잠시 멈춘다",
+        B: "누구인지 확인할 때까지 움직이지 않는다",
+        C: "일단 문 근처로 가서 숨을 고른다",
+        D: "예상 밖이라서 오히려 궁금해진다",
+      },
+    },
+    {
+      id: 3,
+      question: "당신에게 '방'이란 어떤 공간에 더 가깝나요?",
+      options: {
+        A: "세상에서 가장 안전한 장소",
+        B: "관리와 유지가 필요한 개인 구역",
+        C: "기억이 쌓여 있는 저장 공간",
+        D: "언젠가는 나가게 될 출발점",
+      },
+    },
+    {
+      id: 4,
+      question: "누군가와 대화를 나눌 때, 당신의 말투는?",
+      options: {
+        A: "정확하고 구체적으로 설명한다",
+        B: "필요할 때만 짧게 말한다",
+        C: "감정이 실리면 말이 많아진다",
+        D: "농담과 질문이 섞인다",
+      },
+    },
+    {
+      id: 5,
+      question: "계획이 틀어졌을 때, 당신은?",
+      options: {
+        A: "새 계획을 바로 다시 세운다",
+        B: "원래 계획을 최대한 유지하려 한다",
+        C: "잠시 멈추고 이유를 생각한다",
+        D: "예상 밖의 흐름을 따라가 본다",
+      },
+    },
+    {
+      id: 6,
+      question: "'여행'이라는 단어를 들으면 가장 먼저 떠오르는 건?",
+      options: {
+        A: "이동 경로와 시간표",
+        B: "꼭 챙겨야 할 물건 목록",
+        C: "함께 걷는 누군가",
+        D: "도착보다 과정",
+      },
+    },
+    {
+      id: 7,
+      question: "오래된 물건 하나를 고른다면?",
+      options: {
+        A: "아직도 잘 작동하는 것",
+        B: "손때가 많이 묻은 것",
+        C: "사연이 담긴 것",
+        D: "언젠가 다시 쓰게 될 것 같은 것",
+      },
+    },
+    {
+      id: 8,
+      question: "당신이 가장 자주 하는 생각은?",
+      options: {
+        A: "이건 논리적으로 맞는가?",
+        B: "문제없이 유지될까?",
+        C: "이 순간은 어떤 의미일까?",
+        D: "지금 아니면 언제 하지?",
+      },
+    },
+    {
+      id: 9,
+      question: "누군가에게 도움을 주는 상황, 당신의 기준은?",
+      options: {
+        A: "내가 할 수 있는 범위 안에서",
+        B: "필요하다면 당연히",
+        C: "그 사람이 원한다면",
+        D: "망설여도 결국 한다",
+      },
+    },
+  ],
+  mapping: {
+    1: { A: "OLIVER", B: "OLIVER", C: "CLAIRE", D: "CLAIRE" },
+    2: { A: "OLIVER", B: "JAMES", C: "OLIVER", D: "CLAIRE" },
+    3: { A: "OLIVER", B: "OLIVER", C: "JAMES", D: "CLAIRE" },
+    4: { A: "OLIVER", B: "JAMES", C: "CLAIRE", D: "CLAIRE" },
+    5: { A: "OLIVER", B: "JAMES", C: "JAMES", D: "CLAIRE" },
+    6: { A: "OLIVER", B: "OLIVER", C: "JAMES", D: "CLAIRE" },
+    7: { A: "OLIVER", B: "JAMES", C: "JAMES", D: "CLAIRE" },
+    8: { A: "OLIVER", B: "OLIVER", C: "JAMES", D: "CLAIRE" },
+    9: { A: "OLIVER", B: "JAMES", C: "JAMES", D: "CLAIRE" },
+  },
+  results: {
+    OLIVER: {
+      name: "올리버형",
+      description: [
+        "당신은 질서와 루틴 속에서 세상을 이해하는 사람입니다.",
+        "익숙한 공간과 반복 안에서 안정감을 느끼며, 누군가를 돕는 일은 당신의 존재 방식에 가깝습니다.",
+      ],
+      cta: "당신의 방식으로 세상을 사랑하는 장면을 무대에서 확인하세요.",
+    },
+    JAMES: {
+      name: "제임스형",
+      description: [
+        "당신은 말보다 행동과 시간으로 마음을 남기는 사람입니다.",
+        "조용히 곁을 지키며, 당신의 선택은 오래도록 다른 사람의 삶에 영향을 줍니다.",
+      ],
+      cta: "무대 위에서, 남겨진 마음의 온도를 느껴보세요.",
+    },
+    CLAIRE: {
+      name: "클레어형",
+      description: [
+        "당신은 불확실함을 알면서도 지금의 선택을 믿는 사람입니다.",
+        "계획보다 감각을 신뢰하며, 현재의 순간에 충실합니다.",
+      ],
+      cta: "지금의 선택이 만들어내는 장면을 극장에서 만나보세요.",
+    },
+  },
+};
+
+// 상태 관리
+let currentQuestionIndex = 0;
+let scores = {
+  OLIVER: 0,
+  JAMES: 0,
+  CLAIRE: 0,
+};
+let lastSelectedType = null; // 동점 처리용
+
+// DOM 요소
+const introSection = document.getElementById("intro");
+const quizSection = document.getElementById("quiz");
+const resultSection = document.getElementById("result");
+const startBtn = document.getElementById("start-btn");
+const restartBtn = document.getElementById("restart-btn");
+const titleElement = document.getElementById("title");
+const subtitleElement = document.getElementById("subtitle");
+const questionNumberElement = document.getElementById("question-number");
+const totalQuestionsElement = document.getElementById("total-questions");
+const questionTextElement = document.getElementById("question-text");
+const optionsContainer = document.getElementById("options");
+const progressFill = document.getElementById("progress");
+const resultNameElement = document.getElementById("result-name");
+const resultDescriptionElement = document.getElementById("result-description");
+const resultCtaElement = document.getElementById("result-cta");
+
+// 초기화
+function init() {
+  titleElement.textContent = testData.meta.title;
+  subtitleElement.textContent = testData.meta.subtitle;
+  totalQuestionsElement.textContent = testData.questions.length;
+
+  startBtn.addEventListener("click", startQuiz);
+  restartBtn.addEventListener("click", restartQuiz);
+}
+
+// 퀴즈 시작
+function startQuiz() {
+  currentQuestionIndex = 0;
+  scores = {
+    OLIVER: 0,
+    JAMES: 0,
+    CLAIRE: 0,
+  };
+  lastSelectedType = null;
+
+  introSection.classList.add("hidden");
+  quizSection.classList.remove("hidden");
+  resultSection.classList.add("hidden");
+
+  showQuestion();
+}
+
+// 질문 표시
+function showQuestion() {
+  const question = testData.questions[currentQuestionIndex];
+  const questionNumber = currentQuestionIndex + 1;
+  const totalQuestions = testData.questions.length;
+
+  questionNumberElement.textContent = questionNumber;
+  questionTextElement.textContent = question.question;
+
+  // 진행률 업데이트
+  const progress = (questionNumber / totalQuestions) * 100;
+  progressFill.style.width = progress + "%";
+
+  // 옵션 생성
+  optionsContainer.innerHTML = "";
+  const options = ["A", "B", "C", "D"];
+
+  options.forEach((optionKey) => {
+    const optionDiv = document.createElement("div");
+    optionDiv.className = "option";
+    optionDiv.dataset.option = optionKey;
+
+    const labelSpan = document.createElement("span");
+    labelSpan.className = "option-label";
+    labelSpan.textContent = optionKey + ".";
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = question.options[optionKey];
+
+    optionDiv.appendChild(labelSpan);
+    optionDiv.appendChild(textSpan);
+
+    optionDiv.addEventListener("click", () => selectOption(optionKey));
+
+    optionsContainer.appendChild(optionDiv);
+  });
+}
+
+// 옵션 선택
+function selectOption(optionKey) {
+  const question = testData.questions[currentQuestionIndex];
+  const questionId = question.id.toString();
+  const selectedType = testData.mapping[questionId][optionKey];
+
+  // 점수 추가
+  scores[selectedType]++;
+
+  // 동점 처리용 마지막 선택 타입 저장
+  lastSelectedType = selectedType;
+
+  // 선택된 옵션 시각적 표시
+  const options = optionsContainer.querySelectorAll(".option");
+  options.forEach((option) => {
+    option.classList.remove("selected");
+    if (option.dataset.option === optionKey) {
+      option.classList.add("selected");
+    }
+  });
+
+  // 다음 질문으로 이동 (약간의 딜레이 후)
+  setTimeout(() => {
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < testData.questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 500);
+}
+
+// 결과 표시
+function showResult() {
+  // 가장 높은 점수 찾기
+  let maxScore = 0;
+  let winners = [];
+
+  Object.keys(scores).forEach((type) => {
+    if (scores[type] > maxScore) {
+      maxScore = scores[type];
+      winners = [type];
+    } else if (scores[type] === maxScore) {
+      winners.push(type);
+    }
+  });
+
+  // 동점 처리: 마지막 선택을 기준으로 결정
+  let resultType;
+  if (winners.length > 1) {
+    // 마지막 선택이 우승자 중 하나라면 그것을 선택, 아니면 첫 번째 우승자
+    if (lastSelectedType && winners.includes(lastSelectedType)) {
+      resultType = lastSelectedType;
+    } else {
+      resultType = winners[0];
+    }
+  } else {
+    resultType = winners[0];
+  }
+
+  const result = testData.results[resultType];
+
+  // 결과 화면 표시
+  quizSection.classList.add("hidden");
+  resultSection.classList.remove("hidden");
+
+  resultNameElement.textContent = result.name;
+
+  // description을 문단으로 표시
+  resultDescriptionElement.innerHTML = "";
+  result.description.forEach((text) => {
+    const p = document.createElement("p");
+    p.textContent = text;
+    resultDescriptionElement.appendChild(p);
+  });
+
+  resultCtaElement.textContent = result.cta;
+}
+
+// 다시 시작
+function restartQuiz() {
+  startQuiz();
+}
+
+// 페이지 로드 시 초기화
+document.addEventListener("DOMContentLoaded", init);
