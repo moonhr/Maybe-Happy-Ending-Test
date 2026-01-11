@@ -4,29 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어쩌면 해피엔딩 엔딩 테스트</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="어쩌면 해피엔딩 엔딩 테스트" />
+    <meta
+      property="og:description"
+      content="당신은 어떤 순간에 머무는 사람인가요?"
+    />
+    <meta property="og:image" content="images/openGraph.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="" />
+    <meta property="twitter:title" content="어쩌면 해피엔딩 엔딩 테스트" />
+    <meta
+      property="twitter:description"
+      content="당신은 어떤 순간에 머무는 사람인가요?"
+    />
+    <meta property="twitter:image" content="images/openGraph.jpg" />
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div id="intro" class="section">
-        <h1 id="title"></h1>
-        <p id="subtitle"></p>
-        <button id="start-btn" class="btn">시작하기</button>
-      </div>
+    <div id="intro" class="section">
+      <h1 id="title"></h1>
+      <p id="subtitle"></p>
+      <button id="start-btn" class="btn">시작하기</button>
+    </div>
 
+    <div class="container">
       <div id="quiz" class="section hidden">
-        <div class="progress-bar">
-          <div id="progress" class="progress-fill"></div>
+        <div class="question-area">
+          <div class="progress-bar">
+            <div id="progress" class="progress-fill"></div>
+          </div>
+          <div class="question-info">
+            <span id="question-number"></span> /
+            <span id="total-questions"></span>
+          </div>
+          <h2 id="question-text"></h2>
         </div>
-        <div class="question-info">
-          <span id="question-number"></span> /
-          <span id="total-questions"></span>
+        <div class="answer-area">
+          <div id="options" class="options"></div>
+          <button id="prev-btn" class="btn-prev">←</button>
         </div>
-        <h2 id="question-text"></h2>
-        <div id="options" class="options"></div>
       </div>
 
       <div id="result" class="section hidden">
+        <img id="result-image" class="result-image" src="" alt="" />
         <h1 id="result-name"></h1>
         <div id="result-description"></div>
         <p id="result-cta" class="cta"></p>

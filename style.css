@@ -11,6 +11,8 @@ body {
   color: #333;
   line-height: 1.6;
   padding: 20px;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .container {
@@ -22,8 +24,114 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+body.quiz-active {
+  padding: 0;
+}
+
+body.quiz-active .container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.result-active {
+  padding: 0;
+}
+
+body.result-active .container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#quiz {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-y: auto;
+  background-image: url("images/back.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#quiz.hidden {
+  display: none;
+}
+
+#quiz .question-area {
+  flex: 0 0 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 40px;
+  min-height: 20vh;
+}
+
+#quiz .answer-area {
+  flex: 1 1 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 40px;
+  min-height: 70vh;
+  position: relative;
+}
+
 .section {
   text-align: center;
+}
+
+#intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/images/start.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+}
+
+#intro.hidden {
+  display: none;
+}
+
+#start-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  border-radius: 0;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#intro #title,
+#intro #subtitle {
+  position: relative;
+  z-index: 1001;
 }
 
 .hidden {
@@ -43,7 +151,7 @@ body {
 }
 
 .btn {
-  background-color: #4a90e2;
+  background-color: #a8d5ba;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -54,7 +162,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #357abd;
+  background-color: #90c695;
 }
 
 .progress-bar {
@@ -62,13 +170,13 @@ body {
   height: 4px;
   background-color: #e0e0e0;
   border-radius: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #4a90e2;
+  background-color: #5cb85c;
   transition: width 0.3s;
   width: 0%;
 }
@@ -76,25 +184,26 @@ body {
 .question-info {
   font-size: 14px;
   color: #999;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 #question-text {
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   color: #222;
-  min-height: 60px;
 }
 
 .options {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
 }
 
 .option {
-  background-color: #f8f8f8;
-  border: 2px solid #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  border: 2px solid #ffffff;
   border-radius: 4px;
   padding: 16px;
   cursor: pointer;
@@ -104,18 +213,45 @@ body {
 
 .option:hover {
   background-color: #f0f0f0;
-  border-color: #4a90e2;
+  border-color: #5cb85c;
 }
 
 .option.selected {
-  background-color: #e3f2fd;
-  border-color: #4a90e2;
+  background-color: #e8f5e9;
+  border-color: #5cb85c;
 }
 
 .option-label {
   font-weight: bold;
-  color: #4a90e2;
+  color: #5cb85c;
   margin-right: 8px;
+}
+
+#result {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-image: url("images/back.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#result.hidden {
+  display: none;
+}
+
+.result-image {
+  max-width: 100%;
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  margin-bottom: 30px;
+  border-radius: 8px;
 }
 
 #result-name {
@@ -137,11 +273,32 @@ body {
 
 .cta {
   font-size: 16px;
-  color: #4a90e2;
+  color: #5cb85c;
   font-weight: 500;
   margin-bottom: 30px;
 }
 
 #restart-btn {
   margin-top: 20px;
+}
+
+.btn-prev {
+  background: transparent;
+  color: #5cb85c;
+  border: none;
+  padding: 0;
+  font-size: 32px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  line-height: 1;
+  width: auto;
+  height: auto;
+}
+
+.btn-prev:hover {
+  color: #4a9e4a;
+  transform: translateX(-3px);
 }

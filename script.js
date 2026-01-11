@@ -145,6 +145,7 @@ let scores = {
   CLAIRE: 0,
 };
 let lastSelectedType = null; // 동점 처리용
+let selectedAnswers = {}; // 질문별로 선택한 답변 저장
 
 // DOM 요소
 const introSection = document.getElementById("intro");
@@ -162,15 +163,16 @@ const progressFill = document.getElementById("progress");
 const resultNameElement = document.getElementById("result-name");
 const resultDescriptionElement = document.getElementById("result-description");
 const resultCtaElement = document.getElementById("result-cta");
+const resultImageElement = document.getElementById("result-image");
+const prevBtn = document.getElementById("prev-btn");
 
 // 초기화
 function init() {
-  titleElement.textContent = testData.meta.title;
-  subtitleElement.textContent = testData.meta.subtitle;
   totalQuestionsElement.textContent = testData.questions.length;
 
   startBtn.addEventListener("click", startQuiz);
   restartBtn.addEventListener("click", restartQuiz);
+  prevBtn.addEventListener("click", goToPreviousQuestion);
 }
 
 // 퀴즈 시작
@@ -182,7 +184,9 @@ function startQuiz() {
     CLAIRE: 0,
   };
   lastSelectedType = null;
+  selectedAnswers = {};
 
+  document.body.classList.add("quiz-active");
   introSection.classList.add("hidden");
   quizSection.classList.remove("hidden");
   resultSection.classList.add("hidden");
@@ -203,9 +207,17 @@ function showQuestion() {
   const progress = (questionNumber / totalQuestions) * 100;
   progressFill.style.width = progress + "%";
 
+  // 이전 버튼 표시/숨김
+  if (currentQuestionIndex === 0) {
+    prevBtn.style.display = "none";
+  } else {
+    prevBtn.style.display = "block";
+  }
+
   // 옵션 생성
   optionsContainer.innerHTML = "";
   const options = ["A", "B", "C", "D"];
+  const savedAnswer = selectedAnswers[question.id];
 
   options.forEach((optionKey) => {
     const optionDiv = document.createElement("div");
@@ -222,6 +234,11 @@ function showQuestion() {
     optionDiv.appendChild(labelSpan);
     optionDiv.appendChild(textSpan);
 
+    // 저장된 답변이 있으면 선택 표시
+    if (savedAnswer === optionKey) {
+      optionDiv.classList.add("selected");
+    }
+
     optionDiv.addEventListener("click", () => selectOption(optionKey));
 
     optionsContainer.appendChild(optionDiv);
@@ -232,13 +249,9 @@ function showQuestion() {
 function selectOption(optionKey) {
   const question = testData.questions[currentQuestionIndex];
   const questionId = question.id.toString();
-  const selectedType = testData.mapping[questionId][optionKey];
 
-  // 점수 추가
-  scores[selectedType]++;
-
-  // 동점 처리용 마지막 선택 타입 저장
-  lastSelectedType = selectedType;
+  // 선택한 답변 저장
+  selectedAnswers[question.id] = optionKey;
 
   // 선택된 옵션 시각적 표시
   const options = optionsContainer.querySelectorAll(".option");
@@ -256,9 +269,42 @@ function selectOption(optionKey) {
     if (currentQuestionIndex < testData.questions.length) {
       showQuestion();
     } else {
+      calculateScores();
       showResult();
     }
   }, 500);
+}
+
+// 점수 계산
+function calculateScores() {
+  // 점수 초기화
+  scores = {
+    OLIVER: 0,
+    JAMES: 0,
+    CLAIRE: 0,
+  };
+
+  // 저장된 답변들을 기반으로 점수 계산
+  Object.keys(selectedAnswers).forEach((questionId) => {
+    const optionKey = selectedAnswers[questionId];
+    const selectedType = testData.mapping[questionId][optionKey];
+    scores[selectedType]++;
+  });
+
+  // 마지막 선택 타입 저장
+  const lastQuestionId = Object.keys(selectedAnswers).pop();
+  if (lastQuestionId) {
+    const lastOption = selectedAnswers[lastQuestionId];
+    lastSelectedType = testData.mapping[lastQuestionId][lastOption];
+  }
+}
+
+// 이전 질문으로 이동
+function goToPreviousQuestion() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    showQuestion();
+  }
 }
 
 // 결과 표시
@@ -291,9 +337,20 @@ function showResult() {
 
   const result = testData.results[resultType];
 
-  // 결과 화면 표시
+  // 결과 화면 표시 - 퀴즈 섹션을 먼저 숨김
   quizSection.classList.add("hidden");
+  document.body.classList.remove("quiz-active");
+  document.body.classList.add("result-active");
   resultSection.classList.remove("hidden");
+
+  // 캐릭터 이미지 설정
+  const imageMap = {
+    OLIVER: "images/올리버.jpg",
+    JAMES: "images/제임스.jpg",
+    CLAIRE: "images/클레어.jpg",
+  };
+  resultImageElement.src = imageMap[resultType];
+  resultImageElement.alt = result.name;
 
   resultNameElement.textContent = result.name;
 
@@ -310,7 +367,22 @@ function showResult() {
 
 // 다시 시작
 function restartQuiz() {
-  startQuiz();
+  // 점수 초기화
+  currentQuestionIndex = 0;
+  scores = {
+    OLIVER: 0,
+    JAMES: 0,
+    CLAIRE: 0,
+  };
+  lastSelectedType = null;
+  selectedAnswers = {};
+
+  document.body.classList.remove("quiz-active");
+  document.body.classList.remove("result-active");
+  // 첫 화면(인트로)으로 이동
+  quizSection.classList.add("hidden");
+  resultSection.classList.add("hidden");
+  introSection.classList.remove("hidden");
 }
 
 // 페이지 로드 시 초기화
