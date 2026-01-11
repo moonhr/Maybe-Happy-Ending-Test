@@ -61,9 +61,11 @@ jobs:
               --exclude "*/.DS_Store"
           fi
 
-      - name: Invalidate CloudFront cache (optional)
+      - name: Invalidate CloudFront cache
         if: env.CLOUDFRONT_DISTRIBUTION_ID != ''
         run: |
+          echo "Invalidating CloudFront cache..."
           aws cloudfront create-invalidation \
             --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
-            --paths "/*"
+            --paths "/style.css" "/script.js" "/index.html" "/*"
+        continue-on-error: true
