@@ -53,6 +53,14 @@ jobs:
               --cache-control "no-cache, no-store, must-revalidate"
           fi
 
+          # images 폴더 업로드 (긴 캐시)
+          if [ -d "images" ]; then
+            aws s3 sync images/ "s3://$S3_BUCKET_NAME/images/" \
+              --cache-control "public, max-age=31536000" \
+              --exclude ".*" \
+              --exclude "*/.DS_Store"
+          fi
+
       - name: Invalidate CloudFront cache (optional)
         if: env.CLOUDFRONT_DISTRIBUTION_ID != ''
         run: |
